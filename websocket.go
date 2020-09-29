@@ -89,7 +89,7 @@ func startServer(ctx context.Context, opt *WsOptions, body interface{}, handler 
 	}
 
 	var closeServer = func() {
-		opt.debug("close ws server")
+		opt.debug("close ws connection")
 		c.Close()
 	}
 
