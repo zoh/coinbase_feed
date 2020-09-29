@@ -1,0 +1,27 @@
+version: '3.3'
+
+services:
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+    ports:
+        - 3306:3306
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+  
+  feeder:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+    environment:
+      - MYSQL_URL=root:example@tcp(db:3306)/mysql
+    depends_on:
+      - db
+    command: ./feeder -symbol ETH-BTC -symbol BTC-USD -symbol BTC-EUR
